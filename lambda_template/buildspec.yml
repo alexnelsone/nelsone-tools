@@ -1,0 +1,15 @@
+# Change the TEMPLATE placeholders below to be the name of the cloudformation template you created.
+# Change BUCKET to be the bucket where cloudformation will put the converted template
+# Change the prefix to the landing location of the zip file that Cloudformation will create
+
+version: 0.1
+phases:
+  install:
+    commands:
+    - aws cloudformation package --template-file TEMPLATE.yml --output-template-file TEMPLATE_deploy.yml --s3-bucket BUCKET --s3-prefix PREFIX
+                                                                 
+artifacts:
+  type: zip
+  files:
+  - TEMPLATE_deploy.yml
+ 

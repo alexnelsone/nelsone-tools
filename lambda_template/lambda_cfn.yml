@@ -1,0 +1,78 @@
+AWSTemplateFormatVersion: 2010-09-09
+Transform: AWS::Serverless-2016-10-31
+
+Parameters:
+
+  environment:
+    Description: Envrionment Name
+    Type: String
+    Default: dev
+    AllowedValues:
+    - dev
+    - stage
+    - qa
+    - prod
+  lambdaFunctionName:
+    Type: String
+    Default: 'MODIFY_ME'
+    
+  lambdaHandler:
+    Type: String
+    Default: MODIFY_ME
+    
+  runTime:
+    Type: String
+    Default: python2.7
+    
+  lambdaDescription:
+    Type: String
+    Default: "MODIFY_ME"
+    
+  lambdaRole: 
+    Type: String
+    Default: 'arn:aws:iam::ACCOUNTNUMBER:role/lambda-role'
+
+# TAGS
+  uniqueIdentifier:
+    Type: String
+    Default: '1120000208'
+    
+
+Metadata:
+  AWS::CloudFormation::Interface:
+    ParameterGroups:
+    - Label:
+        default: Lambda Configuration
+      Parameters:
+      - environment
+      - lambdaHandler
+      - runTime
+    - Label:
+        default: "Tags"
+      Parameters:
+        - uniqueIdentifier
+    ParameterLabels:
+      environment:
+        default: 'Environment where this bucket is being used'
+      lambdaHandler:
+        default: 'The name of the lambda handler'
+      runTime: 
+        default: 'Runtime to use for lambda'
+      uniqueIdentifier:
+        default: 'Unique Identifier'
+ 
+
+
+Resources:
+  lambdaFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: !Ref lambdaFunctionName
+      Description: !Ref lambdaDescription
+      Handler: !Ref lambdaHandler
+      Runtime: python2.7
+      Role: !Ref lambdaRole
+      Tags:
+        uniqueIdentifier: !Ref uniqueIdentifier
+
+      
